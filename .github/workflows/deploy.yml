@@ -11,12 +11,12 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
-    container: 
-      image: node:16
-
+    # container: 
+    #   image: node:16
+    # # 如果不使用container的话，运行service需要做出更改
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      MONGODB_CLUSTER_ADDRESS: mongodb 
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017 # 需要改
       MONGODB_USERNAME: root
       MONGODB_PASSWORD: example
       PORT: 8080
@@ -25,6 +25,8 @@ jobs:
       mongodb: # 这里的名字跟19行的名字要保持一致。本来应该连接一个现有的服务器，但是现在用的是predefined
                # service container。所以这里19行里job测试的数据库为services里的mongodb。
         image: mongo
+        ports:
+          - 27017:27017
         env:
           MONGO_INITDB_ROOT_USERNAME: root
           MONGO_INITDB_ROOT_PASSWORD: example
